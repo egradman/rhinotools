@@ -6,7 +6,7 @@ import Rhino
 import System.Guid
 import scriptcontext
 import rhinoscriptsyntax as rs
-
+from getsubsurface import GetSubSurface
 
 def main():
   to_delete = []
@@ -17,7 +17,7 @@ def main():
   negative_object = rs.GetObject("select negative object", 16)
   rs.HideObject(negative_object)
 
-  face = GetSubSurface("select tenon surface")
+  polysurface, face = GetSubSurface("select tenon surface")
   to_delete.append(face)
 
   normal = rs.VectorUnitize(rs.SurfaceNormal(face, (0.5,0.5)))
@@ -58,24 +58,6 @@ def main():
   rs.DeleteObjects(to_delete)
   rs.DeleteObjects(tenon_faces)
   rs.DeleteObjects(tenons)
-
-
-def GetSubSurface(prompt="select subsurface"):
-  # get a surface of an object
-  go=Rhino.Input.Custom.GetObject()
-  go.GeometryFilter=Rhino.DocObjects.ObjectType.Surface
-  go.SetCommandPrompt(prompt)
-  go.Get()
-  objref = go.Object(0)
-  go.Dispose()
-
-  brep = objref.Face().DuplicateFace(True)
-  guid = scriptcontext.doc.Objects.AddBrep(brep)
-
-  if (guid != System.Guid.Empty):
-    rc = Rhino.Commands.Result.Success
-    scriptcontext.doc.Views.Redraw()
-  return guid
 
 if __name__ == '__main__':
   main()
