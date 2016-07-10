@@ -1,5 +1,9 @@
 ## Eric's Rhino tools
 
+Some video examples:
+
+https://www.youtube.com/playlist?list=PL6vjZyexULrxROMOXeZTPhfKZhv0Ogfqv
+
 ### fingerjointing
 
 _finger2_ : `!-_RunPythonScript (Y:\cad\rhinopython\fingerjoint\two.py)`
